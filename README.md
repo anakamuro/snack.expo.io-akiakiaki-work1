@@ -4,6 +4,8 @@
 To install the application, you need to install Expo and type yarn install or npm install.
 To start the application, you need to type yarn start
 
+    <pre>
    The mobile Flashcards project is tested how to make deck by AddDeck components and how to make cards by addCard components 
 and how to make a quiz by Quiz components. <br/>
    **And the proper use of createStackNavigator, createBottomNavigator, AsyncStorage, Notification is important to create the app.**
+   </pre>

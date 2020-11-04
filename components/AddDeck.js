@@ -1,8 +1,10 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, TextInput, Button, Alert } from 'react-native';
+import { Text, View, StyleSheet, TextInput, Button, Alert, Platform } from 'react-native';
 import { saveDeckTitle } from '../utils/api';
 import { addDeck } from '../actions';
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
+import {  white, purple } from "../utils/colors";
+
 
 class AddDeck extends React.Component {
   state = {
@@ -23,7 +25,7 @@ class AddDeck extends React.Component {
       await saveDeckTitle(this.state.text);
       this.props.dispatch(addDeck(this.state.text));
       this.clear();
-      navigation.goBack();
+      navigation.navigate('Decks')
     }
   };
 
@@ -49,6 +51,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItem: 'center',
+    backgroundColor: Platform.OS === 'ios' ? white: purple
   },
   title: {
     fontSize: 30,
@@ -63,7 +66,14 @@ const styles = StyleSheet.create({
     borderColor: 'blue',
     margin: 50,
     borderRadius: 5,
+    color: white
   },
 });
 
-export default connect()(AddDeck);
+const mapDispatchToProps = dispatch => {
+return {
+  addDeck: (text) =>dispatch(addDeck(text))
+}
+}
+
+export default connect(mapDispatchToProps)(AddDeck)

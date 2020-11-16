@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, TextInput , Button, Platform} from 'react-native';
+import { Text, View, StyleSheet, TextInput , Button, Platform, Animated} from 'react-native';
 import { ToggleButton } from "./ToggleButton";
 import {  white, purple, red, green, blue, gold, gray } from "../utils/colors";
 import { connect } from "react-redux";
-import { NavigationActions } from "react-navigation";
+import { setLocalNotification, clearLocalNotification} from '../utils/helpers';
+
 
 
  class Quiz extends React.Component{
@@ -12,7 +13,9 @@ import { NavigationActions } from "react-navigation";
       currentQuestionIndex: 0,
       showQuestion: false,
       correct: 0,
-      incorrect: 0
+      incorrect: 0,
+      animation: new Animated.Value(0.5),
+      rotate: new Animated.Value(0)
   }
 
   handleToggleQuestionAnswer = () =>{
@@ -22,6 +25,7 @@ import { NavigationActions } from "react-navigation";
 }
 
   submitAnswer = answer => {
+    this.handleAnimation()
     const { currentQuestionIndex } = this.state;
     const deck = this.props.route.params.entryId;
     const decks = this.props.decks;
@@ -37,7 +41,7 @@ import { NavigationActions } from "react-navigation";
     this.setState({
       currentQuestionIndex: this.state.currentQuestionIndex + 1,
       showQuestion: false
-    });
+    })
   };
 
   resetQuiz = () => {
@@ -54,25 +58,83 @@ import { NavigationActions } from "react-navigation";
     this.props.navigation.navigate('DeckView')
   };
   
+  handleAnimation = () =>{
+    Animated.spring(
+      this.state.animation, {
+        toValue: 1.5, 
+        friction: 2, 
+        tension: 360, 
+        duration: 800
+      }).start(()=>{
+        Animated.spring(
+          this.state.animation, {
+            toValue:1, 
+            duration: 120
+          }).start()
+      })
+
+      Animated.timing(
+      this.state.rotate, {
+        toValue: 1.5, 
+        duration: 1000,
+        delay: 750
+      }).start(()=>{
+        Animated.timing(
+          this.state.rotate, {
+            toValue:1, 
+            duration: 750
+          }).start()
+      })
+  }
   render(){
     const currentQuestionIndex = this.state.currentQuestionIndex;
     const decks = this.props.decks;
     const deck = this.props.route.params.entryId;
     const number = currentQuestionIndex + 1;
+
+   const animatedStyle = {
+      transform: [
+        {scale: this.state.animation}
+      ]
+    }
+
+    const rotateInterpolate = this.state.rotate.interpolate({
+      inputRange: [0, 360],
+      outputRange: ["0deg", "720deg"]
+    })
+
+    const rotateStyles = {
+      transform: [
+        {
+          rotate: rotateInterpolate
+        }
+      ]
+    }
+
+    if(decks[deck.title].questions.length === 0){
+      return (
+        <View style={styles.emptyScreen}>
+          <Text style={styles.emptyMessage}>You do not have any cards. Please add cards!!</Text>
+        </View>
+      )
+    }
+
    if(currentQuestionIndex === decks[deck.title].questions.length){
+     clearLocalNotification().then(setLocalNotification);
     return(
        <View style={styles.container}>
           <View style={styles.card}>
+          <Animated.View style={animatedStyle}>
           <Text style={styles.mainText}>
           You got {this.state.correct} out of {decks[deck.title].questions.length}!</Text>
-          
+          </Animated.View>
            {this.state.correct == decks[deck.title].questions.length ? 
-          <Text style={{ fontSize: 90,  color: gold}}>Perfect</Text>
+          <Text style={{ fontSize: 90,  color: gold}}>Perfect<Animated.View style= {rotateStyles}><Text>😄 😄</Text></Animated.View></Text>
           : ((this.state.correct > this.state.incorrect) &&(this.state.correct < 
           decks[deck.title].questions.length)) ? 
-          <Text style={{ fontSize: 90, color: green }}>Happy</Text>
+          <Text style={{ fontSize: 90, color: green }}>Happy <Animated.View style= {rotateStyles}><Text>😀 😀</Text></Animated.View></Text>
           : 
-          <Text style={{ fontSize: 90, color: gray }}>Cry</Text>
+          <Text style={{ fontSize: 90, color: gray }}>Cry <Animated.View style= {rotateStyles}><Text>😭 😭</Text></Animated.View></Text>
           }
               <View>
               <Button
@@ -155,6 +217,15 @@ const styles = StyleSheet.create({
     height: 40,
     margin: 5,
     width: 140
+  },
+  emptyScreen: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  emptyMessage: {
+    fontSize: 20,
+    color: "gray",
   },
   questions: {
     top: 0,

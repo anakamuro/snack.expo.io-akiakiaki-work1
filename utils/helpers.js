@@ -1,6 +1,7 @@
 import React from "react";
-import { View, Text, AsyncStorage } from "react-native";
-import { Notifications, Permissions } from "expo";
+import Permissions from 'expo-permissions';
+import * as Notifications from 'expo-notifications';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const NOTIFICATION_KEY = "flashcards: notifications";
 
@@ -22,7 +23,7 @@ export function setLocalNotification() {
         Permissions.askAsync(Permissions.NOTIFICATIONS)
         .then(({ status }) => {
           if (status === "granted") {
-            Notifications.cancelAllScheduledNotificationsAsync();
+            Notifications.cancelAllScheduledNotificationsAsync()
 
             let tomorrow = new Date();
             tomorrow.setDate(tomorrow.getDate() + 1);
@@ -41,6 +42,6 @@ export function setLocalNotification() {
 
 export function clearLocalNotification() {
   return AsyncStorage.removeItem(NOTIFICATION_KEY).then(
-    Notifications.cancelAllSheduleNotificationsAsync
-  );
+    Notifications.cancelAllScheduledNotificationsAsync
+  )
 }

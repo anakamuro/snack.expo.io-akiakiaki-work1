@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { Text, View, StyleSheet, TextInput, Button, Alert, Platform } from 'react-native';
-import { addCardToDeck } from '../utils/api';
 import { addCard } from '../actions';
 import { connect } from 'react-redux';
-import {  white, orange } from "../utils/colors";
+import {  white, orange, blue } from "../utils/colors";
 
 const INITIAL_STATE = {
   question: '',
@@ -31,8 +30,7 @@ class AddCard extends React.Component {
       return;
     } else {
       const { navigation } = this.props;
-      await addCardToDeck(title, this.state);
-      this.props.dispatch(addCard(title, this.state));
+      await this.props.dispatch(addCard(title, this.state));
       this.clear();
       navigation.goBack();
     }
@@ -57,6 +55,7 @@ class AddCard extends React.Component {
           onChangeText={(correctAnswer) => this.setState({ correctAnswer })}
           value={this.state.correctAnswer}></TextInput>
         <Button
+          style={styles.input}
           title="Submit"
           text="Submit"
           onPress={this.handleSubmit}></Button>
@@ -69,8 +68,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItem: 'center',
-    backgroundColor: Platform.OS === 'ios' ? white: orange,
+    alignItems: 'center',
+    backgroundColor: Platform.OS === 'ios' ? blue : orange,
   },
   title: {
     fontSize: 30,
@@ -92,7 +91,8 @@ const styles = StyleSheet.create({
 const mapDispatchToProps = dispatch => {
 return {
   addCard: (title, question, answer, correctAnswer) =>dispatch(addCard(title, question, answer, correctAnswer))
+ }
 }
-}
+
 export default connect(mapDispatchToProps)(AddCard)
 

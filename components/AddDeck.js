@@ -24,8 +24,8 @@ class AddDeck extends React.Component {
       const { navigation } = this.props;
       await saveDeckTitle(this.state.text);
       this.props.dispatch(addDeck(this.state.text));
-      this.clear();
-      navigation.navigate('Decks')
+       navigation.navigate('DeckView', { entryId: { title: this.state.text } });
+    this.clear();
     }
   };
 
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItem: 'center',
+    alignItems: 'center',
     backgroundColor: Platform.OS === 'ios' ? white: purple
   },
   title: {

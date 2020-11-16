@@ -1,29 +1,19 @@
 {
-  "main": "App.js",
-  "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "eject": "expo eject"
-  },
   "dependencies": {
-    "@react-native-community/masked-view": "0.1.10",
-    "@react-navigation/bottom-tabs": "5.9.2",
-    "@react-navigation/native": "^5.6.5",
-    "@react-navigation/stack": "^5.9.3",
-    "expo": "^39.0.4",
-    "react": "^17.0.1",
-    "react-native": "^0.63.3",
-    "react-native-cli": "^2.0.1",
-    "react-native-gesture-handler": "~1.6.0",
-    "react-native-paper": "3.6.0",
-    "react-native-safe-area-context": "3.0.2",
-    "react-native-screens": "~2.8.0",
-    "react-navigation": "4.1.1",
+    "redux": "^4.0.1",
     "react-redux": "6.0.1",
-    "redux": "^4.0.1"
-  },
-  "devDependencies": {
-    "babel-preset-expo": "^5.0.0"
+    "expo-permissions": "~9.3.0",
+    "react-navigation": "4.1.1",
+    "expo-notifications": "~0.7.0",
+    "react-native-paper": "3.6.0",
+    "react-native-screens": "~2.10.1",
+    "@react-navigation/stack": "^5.9.3",
+    "@react-navigation/native": "^5.6.5",
+    "react-native-gesture-handler": "~1.7.0",
+    "@react-navigation/bottom-tabs": "5.9.2",
+    "react-native-safe-area-context": "3.1.4",
+    "@react-native-community/masked-view": "0.1.10",
+    "@react-native-community/async-storage": "~1.12.0",
+    "redux-thunk": "2.3.0"
   }
 }

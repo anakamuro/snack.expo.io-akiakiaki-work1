@@ -27,7 +27,9 @@ class Decks extends React.Component {
         <View style={styles.container}>
           {Object.values(decks).map((deck) => {
             return (
-              <View style={styles.card}>
+              <View 
+              style={styles.card}
+               key={decks.card}>
                 <Text>{deck.title}</Text>
                 <Text>{deck.questions.length}</Text>
                 <Button

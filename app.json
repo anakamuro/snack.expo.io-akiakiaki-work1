@@ -4,35 +4,20 @@
     "description": "This is the third assignment for Udacity React.js course.",
     "slug": "mobile-flashcards",
     "privacy": "public",
-    "sdkVersion": "33.0.0",
+    "sdkVersion": "39.0.0",
     "platforms": [
       "ios",
       "android"
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "notification": {
-      "icon": "./assets/icon-48.png"
-    },
     "updates": {
       "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "io.jamespriest.mobileflashcards"
-    },
-    "android": {
-      "package": "io.jamespriest.mobileflashcards"
-    },
-    "githubUrl": "https://github.com/james-priest/mobile-flashcards"
+    }
   }
 }
